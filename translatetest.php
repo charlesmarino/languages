@@ -8,7 +8,7 @@ header('Content-Type:application/json; charset=UTF-8');
 
 	// Get the specific student data
 	$translated_words = file_get_contents('http://localhost/translateme.php?action=translate&english_words=' . $encoded_words . '&language=danish');
-
+	echo "test";
 	echo $translated_words;
 
 ?>
