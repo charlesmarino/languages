@@ -1,7 +1,6 @@
 <?php
 
 function translate($translate_to, $matching_ids, $dbc){
-
         // Represents the id name in the table so for Russian it
         // would be russian_id
         $translate_id = $translate_to . '_id';
@@ -51,21 +50,18 @@ ORDER BY WordsToSearch.word_order;
 } // Close function translate
 
 function get_translation($translate_to, $english_words){
-
         // Trim white space from the name and store the name
         $english_words = trim($english_words);
-
         $english_array = array();
 
         // Break the words into an array
         $english_array = explode(" ", $english_words);
 
         // Get a connection to the database
-        require_once('../mysqli_connect_language.php');
+        require_once('../mysqli_connect_languages.php');
 
         // Set character set in PHP to get proper characters
         $dbc->set_charset("utf8");
-
 /*QUERY:
 
 UNION ALL combines the result set of multiple SELECT statements
@@ -92,12 +88,10 @@ ORDER BY WordsToSearch.word_order;
             $query = $query . " UNION ALL SELECT '" . $english_array[$i] .
             "', " . ($i + 1) . " ";
         }
-
-        $query = $query . ") WordsToSearch ON english.word = WordsToSearch.word
+       $query = $query . ") WordsToSearch ON english.word = WordsToSearch.word
 ORDER BY WordsToSearch.word_order;";
 
         // END OF THE NEW QUERY -------------------
-
         // Issue the query to the database
         $response = @mysqli_query($dbc, $query);
 
@@ -116,16 +110,13 @@ ORDER BY WordsToSearch.word_order;";
             }
 
         } // Close if($response)
-
         return translate($translate_to, $matching_ids, $dbc);
 
 }
 
 if(isset($_GET["action"])){
-
     $translate_to = $_GET["language"]; 
     $english_words  = urldecode($_GET["english_words"]); 
-
     $translated_text = get_translation($translate_to, $english_words);
 
 }
